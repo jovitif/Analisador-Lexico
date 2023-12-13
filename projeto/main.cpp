@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <vector>
 #include <algorithm>
@@ -9,13 +10,11 @@ enum State {
     START, IN_WORD, IN_DIGIT
 };
 
-// Função para verificar se uma palavra é uma palavra reservada
 bool isReservedWord(const string& word) {
     vector<string> reservedWords = {"SOME", "ALL", "VALUE", "MIN", "MAX", "EXACTLY", "THAT", "NOT", "AND", "OR"};
     return find(reservedWords.begin(), reservedWords.end(), word) != reservedWords.end();
 }
 
-// Função para processar o texto e identificar as palavras reservadas usando um autômato
 void identifyReservedWords(const string& text) {
     State state = START;
     string currentWord;
@@ -67,9 +66,20 @@ void identifyReservedWords(const string& text) {
 }
 
 int main() {
-    string text = "Pizza    THAT hasTopping    SOME          min      3";
+    ifstream inputFile("entrada/test01.txt");  // Modifique o caminho conforme necessário
+
+    if (!inputFile.is_open()) {
+        cerr << "Erro ao abrir o arquivo." << endl;
+        return 1;
+    }
+
+    stringstream buffer;
+    buffer << inputFile.rdbuf();
+    string text = buffer.str();
 
     identifyReservedWords(text);
+
+    inputFile.close();
 
     return 0;
 }
