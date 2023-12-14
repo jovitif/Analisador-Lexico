@@ -11,9 +11,20 @@ enum State {
 };
 
 bool isReservedWord(const string& word) {
-    vector<string> reservedWords = {"SOME", "ALL", "VALUE", "MIN", "MAX", "EXACTLY", "THAT", "NOT", "AND", "OR"};
+    vector<string> reservedWords = {"SOME", "ALL", "VALUE", "MIN", "MAX","ONLY", "EXACTLY", "THAT", "NOT", "AND", "OR"};
     return find(reservedWords.begin(), reservedWords.end(), word) != reservedWords.end();
 }
+
+bool isClassIdentifier(const string& word) {
+    // Verifica se o identificador de classe segue as regras fornecidas
+    if (isupper(word[0])) {
+        if (all_of(word.begin() + 1, word.end(), [](char c) { return isalnum(c) || c == '_'; })) {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 void identifyReservedWords(const string& text) {
     State state = START;
@@ -31,11 +42,13 @@ void identifyReservedWords(const string& text) {
                 break;
 
             case IN_WORD:
-                if (isalnum(c)) {
+                if (isalnum(c) || c == '_') {
                     currentWord += c;
                 } else {
                     if (isReservedWord(currentWord)) {
                         cout << "<" << currentWord << ", >" << endl;
+                    } else if (isClassIdentifier(currentWord)) {
+                        cout << "<" << currentWord << ", CLASS>" << endl;
                     }
                     currentWord.clear();
                     state = START;
@@ -60,8 +73,12 @@ void identifyReservedWords(const string& text) {
         }
     }
 
-    if (!currentWord.empty() && isReservedWord(currentWord)) {
-        cout << "<" << currentWord << ", >" << endl;
+    if (!currentWord.empty()) {
+        if (isReservedWord(currentWord)) {
+            cout << "<" << currentWord << ", >" << endl;
+        } else if (isClassIdentifier(currentWord)) {
+            cout << "<" << currentWord << ", CLASS>" << endl;
+        }
     }
 }
 
