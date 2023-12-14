@@ -34,48 +34,48 @@ bool isIdentificadorPropriedade(const string& palavra) {
     return false;
 }
 
-void identifyReservedWords(const string& text) {
+void identifyReservedWords(const string& texto) {
     Automato estado = INICIAL;
-    string currentWord;
+    string palavra;
 
-    for (char c : text) {
+    for (char letra : texto) {
         switch (estado) {
             case INICIAL:
-                if (isalpha(c)) {
-                    currentWord += c;
+                if (isalpha(letra)) {
+                    palavra += letra;
                     estado = IN_PALAVRA;
-                } else if (isdigit(c)) {
+                } else if (isdigit(letra)) {
                     estado = IN_DIGITO;
                 }
                 break;
 
             case IN_PALAVRA:
-                if (isalnum(c) || c == '_') {
-                    currentWord += c;
+                if (isalnum(letra) || letra == '_') {
+                    palavra += letra;
                 } else {
-                    if (isPalavraReservada(currentWord)) {
-                        cout << "<" << currentWord << ", Palavra reservada>" << endl;
-                    } else if (isClasse(currentWord)) {
-                        cout << "<" << currentWord << ", Classe>" << endl;
-                    } else if (isIdentificadorPropriedade(currentWord)) {
-                        cout << "<" << currentWord << ", Propriedade>" << endl;
+                    if (isPalavraReservada(palavra)) {
+                        cout << "<" << palavra << ", Palavra reservada>" << endl;
+                    } else if (isClasse(palavra)) {
+                        cout << "<" << palavra << ", Classe>" << endl;
+                    } else if (isIdentificadorPropriedade(palavra)) {
+                        cout << "<" << palavra << ", Propriedade>" << endl;
                     }
-                    currentWord.clear();
+                    palavra.clear();
                     estado = INICIAL;
-                    if (isalpha(c)) {
-                        currentWord += c;
+                    if (isalpha(letra)) {
+                        palavra += letra;
                         estado = IN_PALAVRA;
-                    } else if (isdigit(c)) {
+                    } else if (isdigit(letra)) {
                         estado = IN_DIGITO;
                     }
                 }
                 break;
 
             case IN_DIGITO:
-                if (!isdigit(c)) {
+                if (!isdigit(letra)) {
                     estado = INICIAL;
-                    if (isalpha(c)) {
-                        currentWord += c;
+                    if (isalpha(letra)) {
+                        palavra += letra;
                         estado = IN_PALAVRA;
                     }
                 }
@@ -83,13 +83,13 @@ void identifyReservedWords(const string& text) {
         }
     }
 
-    if (!currentWord.empty()) {
-        if (isPalavraReservada(currentWord)) {
-            cout << "<" << currentWord << ", >" << endl;
-        } else if (isClasse(currentWord)) {
-            cout << "<" << currentWord << ", CLASS>" << endl;
-        } else if (isIdentificadorPropriedade(currentWord)) {
-            cout << "<" << currentWord << ", PROPERTY>" << endl;
+    if (!palavra.empty()) {
+        if (isPalavraReservada(palavra)) {
+            cout << "<" << palavra << ", >" << endl;
+        } else if (isClasse(palavra)) {
+            cout << "<" << palavra << ", CLASS>" << endl;
+        } else if (isIdentificadorPropriedade(palavra)) {
+            cout << "<" << palavra << ", PROPERTY>" << endl;
         }
     }
 }
