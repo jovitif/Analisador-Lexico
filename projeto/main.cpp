@@ -34,7 +34,7 @@ bool isIdentificadorPropriedade(const string& palavra) {
     return false;
 }
 
-void identifyReservedWords(const string& texto) {
+void simularAutomato(const string& texto) {
     Automato estado = INICIAL;
     string palavra;
 
@@ -112,7 +112,7 @@ int main() {
     const char arquivo[] = "entrada/test01.txt";
     string texto = lerArquivo(arquivo);
 
-    identifyReservedWords(texto);
+    simularAutomato(texto);
 
     return 0;
 }
