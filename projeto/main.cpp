@@ -6,78 +6,77 @@
 
 using namespace std;
 
-enum State {
-    START, IN_WORD, IN_DIGIT
+enum Automato {
+    INICIAL, IN_PALAVRA, IN_DIGITO
 };
 
-bool isReservedWord(const string& word) {
-    vector<string> reservedWords = {"SOME", "ALL", "VALUE", "MIN", "MAX", "ONLY", "EXACTLY", "THAT", "NOT", "AND", "OR"};
-    return find(reservedWords.begin(), reservedWords.end(), word) != reservedWords.end();
+bool isPalavraReservada(const string& palavra) {
+    vector<string> palavrasReservadas = {"SOME", "ALL", "VALUE", "MIN", "MAX", "ONLY", "EXACTLY", "THAT", "NOT", "AND", "OR"};
+    return find(palavrasReservadas.begin(), palavrasReservadas.end(), palavra) != palavrasReservadas.end();
 }
 
-bool isClassIdentifier(const string& word) {
-    // Verifica se o identificador de classe segue as regras fornecidas
-    if (isupper(word[0])) {
-        if (all_of(word.begin() + 1, word.end(), [](char c) { return isalnum(c) || c == '_'; })) {
+bool isClasse(const string& palavra) {
+    if (isupper(palavra[0])) {
+        if (all_of(palavra.begin() + 1, palavra.end(), [](char c) { return isalnum(c) || c == '_'; })) {
             return true;
         }
     }
     return false;
 }
 
-bool isPropertyIdentifier(const string& word) {
+bool isIdentificadorPropriedade(const string& palavra) {
     // Verifica se o identificador de propriedade segue as regras fornecidas
-    if (word.compare(0, 3, "has") == 0 && isupper(word[3])) {
+    if (palavra.compare(0, 3, "has") == 0 && isupper(palavra[3])) {
         return true;
-    } else if (word.compare(0, 2, "is") == 0 && word.compare(word.length() - 2, 2, "Of") == 0) {
+    } else if (palavra.compare(0, 2, "is") == 0 && palavra.compare(palavra.length() - 2, 2, "Of") == 0) {
         return true;
     }
     return false;
 }
 
 void identifyReservedWords(const string& text) {
-    State state = START;
+    Automato estado = INICIAL;
     string currentWord;
 
     for (char c : text) {
-        switch (state) {
-            case START:
+        switch (estado) {
+            case INICIAL:
                 if (isalpha(c)) {
                     currentWord += c;
-                    state = IN_WORD;
+                    estado = IN_PALAVRA;
                 } else if (isdigit(c)) {
-                    state = IN_DIGIT;
+                    estado = IN_DIGITO;
                 }
                 break;
 
-            case IN_WORD:
+            case IN_PALAVRA:
                 if (isalnum(c) || c == '_') {
                     currentWord += c;
                 } else {
-                    if (isReservedWord(currentWord)) {
+                    if (isPalavraReservada(currentWord)) {
                         cout << "<" << currentWord << ", Palavra reservada>" << endl;
-                    } else if (isClassIdentifier(currentWord)) {
+                    } else if (isClasse(currentWord)) {
                         cout << "<" << currentWord << ", Classe>" << endl;
-                    } else if (isPropertyIdentifier(currentWord)) {
+                    } else if (isIdentificadorPropriedade(currentWord)) {
                         cout << "<" << currentWord << ", Propriedade>" << endl;
                     }
                     currentWord.clear();
-                    state = START;
+                    estado = INICIAL;
                     if (isalpha(c)) {
                         currentWord += c;
-                        state = IN_WORD;
+                        estado = IN_PALAVRA;
                     } else if (isdigit(c)) {
-                        state = IN_DIGIT;
+                        estado = IN_DIGITO;
                     }
                 }
                 break;
 
-            case IN_DIGIT:
+            case IN_DIGITO:
                 if (!isdigit(c)) {
-                    state = START;
+                    estado = INICIAL;
                     if (isalpha(c)) {
                         currentWord += c;
-                        state = IN_WORD;
+                        estado = IN_PALAVRA;
                     }
                 }
                 break;
@@ -85,31 +84,36 @@ void identifyReservedWords(const string& text) {
     }
 
     if (!currentWord.empty()) {
-        if (isReservedWord(currentWord)) {
+        if (isPalavraReservada(currentWord)) {
             cout << "<" << currentWord << ", >" << endl;
-        } else if (isClassIdentifier(currentWord)) {
+        } else if (isClasse(currentWord)) {
             cout << "<" << currentWord << ", CLASS>" << endl;
-        } else if (isPropertyIdentifier(currentWord)) {
+        } else if (isIdentificadorPropriedade(currentWord)) {
             cout << "<" << currentWord << ", PROPERTY>" << endl;
         }
     }
 }
 
-int main() {
-    ifstream inputFile("entrada/test01.txt");  // Modifique o caminho conforme necessário
-
-    if (!inputFile.is_open()) {
+string lerArquivo(const char* filename) {
+    ifstream file(filename);
+    if (!file.is_open()) {
         cerr << "Erro ao abrir o arquivo." << endl;
-        return 1;
+        exit(EXIT_FAILURE);
     }
 
     stringstream buffer;
-    buffer << inputFile.rdbuf();
-    string text = buffer.str();
+    buffer << file.rdbuf();
+    file.close();
 
-    identifyReservedWords(text);
+    return buffer.str();
+}
 
-    inputFile.close();
+int main() {
+    const char arquivo[] = "entrada/test01.txt";
+    string texto = lerArquivo(arquivo);
+
+    identifyReservedWords(texto);
 
     return 0;
 }
+
