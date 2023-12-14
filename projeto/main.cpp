@@ -11,7 +11,7 @@ enum State {
 };
 
 bool isReservedWord(const string& word) {
-    vector<string> reservedWords = {"SOME", "ALL", "VALUE", "MIN", "MAX","ONLY", "EXACTLY", "THAT", "NOT", "AND", "OR"};
+    vector<string> reservedWords = {"SOME", "ALL", "VALUE", "MIN", "MAX", "ONLY", "EXACTLY", "THAT", "NOT", "AND", "OR"};
     return find(reservedWords.begin(), reservedWords.end(), word) != reservedWords.end();
 }
 
@@ -25,6 +25,15 @@ bool isClassIdentifier(const string& word) {
     return false;
 }
 
+bool isPropertyIdentifier(const string& word) {
+    // Verifica se o identificador de propriedade segue as regras fornecidas
+    if (word.compare(0, 3, "has") == 0 && isupper(word[3])) {
+        return true;
+    } else if (word.compare(0, 2, "is") == 0 && word.compare(word.length() - 2, 2, "Of") == 0) {
+        return true;
+    }
+    return false;
+}
 
 void identifyReservedWords(const string& text) {
     State state = START;
@@ -46,9 +55,11 @@ void identifyReservedWords(const string& text) {
                     currentWord += c;
                 } else {
                     if (isReservedWord(currentWord)) {
-                        cout << "<" << currentWord << ", >" << endl;
+                        cout << "<" << currentWord << ", Palavra reservada>" << endl;
                     } else if (isClassIdentifier(currentWord)) {
-                        cout << "<" << currentWord << ", CLASS>" << endl;
+                        cout << "<" << currentWord << ", Classe>" << endl;
+                    } else if (isPropertyIdentifier(currentWord)) {
+                        cout << "<" << currentWord << ", Propriedade>" << endl;
                     }
                     currentWord.clear();
                     state = START;
@@ -78,6 +89,8 @@ void identifyReservedWords(const string& text) {
             cout << "<" << currentWord << ", >" << endl;
         } else if (isClassIdentifier(currentWord)) {
             cout << "<" << currentWord << ", CLASS>" << endl;
+        } else if (isPropertyIdentifier(currentWord)) {
+            cout << "<" << currentWord << ", PROPERTY>" << endl;
         }
     }
 }
