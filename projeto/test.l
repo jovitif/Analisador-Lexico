@@ -2,15 +2,15 @@
 // Faz contagem de caracteres, palavras e linhas de um arquivo
 #include <iostream>
 #include <fstream>
-#include <iomanip>  
+#include <iomanip> 
 using namespace std;
-
 unsigned charCount = 0, wordCount = 0, lineCount = 0, palavrasReservadas = 0, identificadoresClasses = 0, identificadoresEspeciais = 0,identificadoresIndividuos =0, identificadorPropriedades=0, identificadorTipoDados=0, identificadoresCardinalidade = 0;
 %}
 
+
 %option noyywrap
 classe [ \t]*[A-Z][a-zA-Z_]*
-individuo [ \t]*[A-Z][a-zA-Z0-9_]*[0-9]*
+individuo [ \t]*[A-Z][a-zA-Z0-9_]*[0-9]+
 letterMa [A-Z]+
 letterMi [a-z]+
 letter [A-Za-z]+
@@ -19,60 +19,77 @@ digito	[0-9]+
 underline [_]
 word [^ \t\n]+
 eol  \n
-reservada (some|all|value|min|max|exactly|that|not|and|or|Class:|EquivalentTo:|Individuals:|SubClassOf:|DisjointClasses:)
-especial ("{"|"}"|"("|")"|"["|"]"|",")
-propriedade has[A-Za-z0-9_]+|is[A-Za-z0-9_]+Of|[a-z][A-Za-z0-9_]*
+reservada [ \t\n]*(some|all|value|min|max|exactly|that|not|and|or|Class:|EquivalentTo:|Individuals:|SubClassOf:|DisjointClasses:)
+especial [ \t\n]*("{"|"}"|"("|")"|"["|"]"|","|"<"|">")
+propriedade  [ \t\n]*[a-z][A-Za-z0-9]*
 tipoDado [ \t](owl|rdfs|xsd):[A-Za-z0-9_]+
-cardinalidade [0-9]+
+cardinalidade [ \t\n]*[0-9]+
+
+
 
 
 %%
+{reservada} {
+    std::cout << "Palavra Reservada: " << yytext << std::endl;
+    palavrasReservadas++;
+    wordCount++; charCount += YYLeng(); 
+}
+
 
 {classe} {
-	std::cout << "Classe: " << yytext << std::endl;
+	cout<< "Classe: " << yytext << std::endl;
 	identificadoresClasses++;
+    wordCount++; charCount += YYLeng(); 
 }
 
-{tipoDado} {
-	std::cout << "Tipo de Dados: " << yytext << std::endl;
-	identificadorTipoDados++;
-}
 
-{individuo} {
-	std::cout << "Individuo: " << yytext << std::endl;
-	identificadoresIndividuos++;
+
+{especial} {
+    std::cout << "Simbolo Especial: " << yytext << std::endl;
+    identificadoresEspeciais++;
+    charCount++;
 }
 
 {propriedade} {
 	std::cout << "Propriedade: " << yytext << std::endl;
 	identificadorPropriedades++;
+    wordCount++; charCount += YYLeng(); 
 }
 
-{reservada} {
-    std::cout << "Palavra Reservada: " << yytext << std::endl;
-    palavrasReservadas++;
+
+
+{individuo} {
+	cout << "Individuo: " << yytext << std::endl;
+	identificadoresIndividuos++;
+    wordCount++; charCount += YYLeng(); 
 }
 
-{especial} {
-    std::cout << "Simbolo Especial: " << yytext << std::endl;
-    identificadoresEspeciais++;
+{tipoDado} {
+	cout << "Tipo de Dados: " << yytext << std::endl;
+	identificadorTipoDados++;
+    wordCount++; charCount += YYLeng(); 
 }
 
 {cardinalidade} {
 	std::cout << "Cardinalidade: " << yytext << std::endl;
     identificadoresCardinalidade++;
+    wordCount++; charCount += YYLeng(); 
 }
 
-{word}	{ wordCount++; charCount += YYLeng(); }
+
 {eol}	{ charCount++; lineCount++; }
 .	    { charCount++; }
 
+
+
 %%
+
 
 int main(int argc, char ** argv)
 {
 	yyFlexLexer lexer;  // lexer lê da entrada padrão (teclado)
 	ifstream fin;
+    
 
 	if (argc > 1) 
 	{    
