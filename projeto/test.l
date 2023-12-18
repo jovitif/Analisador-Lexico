@@ -1,12 +1,12 @@
 %{
-// Faz contagem de caracteres, palavras e linhas de um arquivo
 #include <iostream>
 #include <fstream>
-#include <iomanip> 
+#include <iomanip>
+#include <filesystem>
 using namespace std;
-unsigned charCount = 0, wordCount = 0, lineCount = 0, palavrasReservadas = 0, identificadoresClasses = 0, identificadoresEspeciais = 0,identificadoresIndividuos =0, identificadorPropriedades=0, identificadorTipoDados=0, identificadoresCardinalidade = 0;
+namespace fs = std::filesystem;
+unsigned charCount = 0, wordCount = 0, lineCount = 0, palavrasReservadas = 0, identificadoresClasses = 0, identificadoresEspeciais = 0, identificadoresIndividuos = 0, identificadorPropriedades = 0, identificadorTipoDados = 0, identificadoresCardinalidade = 0;
 %}
-
 
 %option noyywrap
 classe [ \t]*[A-Z][a-zA-Z_]*
@@ -77,38 +77,30 @@ cardinalidade [ \t\n]*[0-9]+
 }
 
 
-{eol}	{ charCount++; lineCount++; }
-.	    { charCount++; }
+{eol}	{ lineCount++; }
+{word}	{ charCount++; }
 
 
 
 %%
 
+int main(int argc, char** argv) {
+    yyFlexLexer lexer;
+    ifstream fin;
 
-int main(int argc, char ** argv)
-{
-	yyFlexLexer lexer;  // lexer lê da entrada padrão (teclado)
-	ifstream fin;
-    
+    if (argc > 1) {
+        fin.open(argv[1]);
+        if (!fin.is_open()) {
+            cout << "Arquivo " << argv[1] << " não pode ser aberto!\n";
+            exit(EXIT_FAILURE);
+        } else {
+            lexer.switch_streams(&fin);
+        }
+    }
 
-	if (argc > 1) 
-	{    
-		fin.open(argv[1]);
-		if (!fin.is_open()) 
-        {
-			cout << "Arquivo " << argv[1] << " não pode ser aberto!\n";
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			// altera entrada para arquivo aberto
-			lexer.switch_streams(&fin);
-		}
-	}
-
-	lexer.yylex();
- 	cout << "Gerando tabela de informações...\n\n";
-    cout << left << setw(50) << "Quantidade de linhas:" << lineCount << "\n"
+    lexer.yylex();
+    cout << "Gerando tabela de informações...\n\n"
+         << left << setw(50) << "Quantidade de linhas:" << lineCount << "\n"
          << left << setw(50) << "Quantidade de palavras:" << wordCount << "\n"
          << left << setw(50) << "Quantidade de letras:" << charCount << "\n"
          << left << setw(50) << "Quantidade de palavras reservadas:" << palavrasReservadas << "\n"
@@ -118,6 +110,27 @@ int main(int argc, char ** argv)
          << left << setw(50) << "Quantidade de Propriedades:" << identificadorPropriedades << "\n"
          << left << setw(50) << "Quantidade de tipos de dados:" << identificadorTipoDados << "\n"
          << left << setw(50) << "Quantidade de cardinalidades:" << identificadoresCardinalidade << "\n";
-	fin.close();
-	return 0;
+
+    fin.close();
+
+    // Salvar as informações no arquivo output.txt
+    ofstream fout("output.txt", ios::out | ios::trunc);
+    if (fout.is_open()) {
+        fout << left << setw(50) << "Quantidade de linhas:" << lineCount << "\n"
+             << left << setw(50) << "Quantidade de palavras:" << wordCount << "\n"
+             << left << setw(50) << "Quantidade de letras:" << charCount << "\n"
+             << left << setw(50) << "Quantidade de palavras reservadas:" << palavrasReservadas << "\n"
+             << left << setw(50) << "Quantidade de Símbolos especiais:" << identificadoresEspeciais << "\n"
+             << left << setw(50) << "Quantidade de Classes:" << identificadoresClasses << "\n"
+             << left << setw(50) << "Quantidade de Indivíduos:" << identificadoresIndividuos << "\n"
+             << left << setw(50) << "Quantidade de Propriedades:" << identificadorPropriedades << "\n"
+             << left << setw(50) << "Quantidade de tipos de dados:" << identificadorTipoDados << "\n"
+             << left << setw(50) << "Quantidade de cardinalidades:" << identificadoresCardinalidade << "\n";
+        fout.close();
+        cout << "As informações foram salvas em output.txt.\n";
+    } else {
+        cout << "Não foi possível criar ou abrir o arquivo output.txt.\n";
+    }
+
+    return 0;
 }
