@@ -1,10 +1,10 @@
-Quantidade de linhas:                             93
-Quantidade de palavras:                           235
-Quantidade de letras:                             3341
-Quantidade de palavras reservadas:                85
-Quantidade de Símbolos especiais:                35
-Quantidade de Classes:                            86
-Quantidade de Indivíduos:                        25
-Quantidade de Propriedades:                       30
-Quantidade de tipos de dados:                     5
-Quantidade de cardinalidades:                     4
+Quantidade de linhas:170
+Quantidade de palavras:235
+Quantidade de letras:2339
+Quantidade de palavras reservadas:85
+Quantidade de Símbolos especiais:90
+Quantidade de Classes:86
+Quantidade de Indivíduos:25
+Quantidade de Propriedades:30
+Quantidade de tipos de dados:5
+Quantidade de cardinalidades:4
