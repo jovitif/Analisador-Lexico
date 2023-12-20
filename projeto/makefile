@@ -6,10 +6,10 @@ LEX=flex++
 all: test
 
 test: lex.yy.cc
-	$(CC) lex.yy.cc -std=c++17 -o test
+	$(CC) lex.yy.cc -std=c++17 -o analisador-lexico
 
-lex.yy.cc: test.l
-	$(LEX) test.l
+lex.yy.cc: analisador.l
+	$(LEX) analisador.l
 
 clean:
 	rm test lex.yy.cc

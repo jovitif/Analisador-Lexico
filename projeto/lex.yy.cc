@@ -480,19 +480,32 @@ static const flex_int16_t yy_chk[249] =
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
-#line 1 "test.l"
-#line 2 "test.l"
+#line 1 "analisador.l"
+#line 2 "analisador.l"
 #include <iostream>
 #include <fstream>
 #include <iomanip>
 #include <filesystem>
 #include <string>
-#include <algorithm>
+#include <vector>
 using namespace std;
 namespace fs = std::filesystem;
-unsigned charCount = 0, wordCount = 0, lineCount = 0, palavrasReservadas = 0, identificadoresClasses = 0, identificadoresEspeciais = 0, identificadoresIndividuos = 0, identificadorPropriedades = 0, identificadorTipoDados = 0, identificadoresCardinalidade = 0;
-#line 495 "lex.yy.cc"
-#line 496 "lex.yy.cc"
+
+unsigned charCount = 0, wordCount = 0, lineCount = 0;
+
+vector<string> palavrasReservadas,classes,simbolosEspeciais,individuos,propriedades,tiposDeDados,cardinalidades;
+
+void escreverCsv(vector<string> vector,ofstream& fout){
+    int size = vector.size();
+
+    for(int i = 0;i < size;i++){
+        fout << vector[i] << " ;";
+    }
+
+    fout << endl;
+}
+#line 508 "lex.yy.cc"
+#line 509 "lex.yy.cc"
 
 #define INITIAL 0
 
@@ -624,9 +637,9 @@ YY_DECL
 		}
 
 	{
-#line 33 "test.l"
+#line 46 "analisador.l"
 
-#line 630 "lex.yy.cc"
+#line 643 "lex.yy.cc"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -685,86 +698,72 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 34 "test.l"
+#line 47 "analisador.l"
 {
-	
-    std::cout << "Palavra Reservada: " << yytext << " " << YYLeng() <<  std::endl;
-    palavrasReservadas++;
+	palavrasReservadas.push_back(yytext);
     wordCount++; charCount += YYLeng();
 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 42 "test.l"
+#line 53 "analisador.l"
 {
-    
-	cout<< "Classe: " << yytext << " " << YYLeng() << std::endl;
-	identificadoresClasses++;
+    classes.push_back(yytext);
     wordCount++; charCount += YYLeng(); 
 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 51 "test.l"
+#line 60 "analisador.l"
 {
-    
-    std::cout << "Simbolo Especial: '"  << yytext  << "'" << " " << YYLeng() << std::endl;
-    identificadoresEspeciais++;
+    simbolosEspeciais.push_back(yytext);
     charCount++;
 }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 58 "test.l"
+#line 65 "analisador.l"
 {
-    
-	std::cout << "Propriedade: " << yytext << " "  << YYLeng() << std::endl;
-	identificadorPropriedades++;
+    propriedades.push_back(yytext);
     wordCount++; charCount += YYLeng(); 
 }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 67 "test.l"
+#line 72 "analisador.l"
 {
-    
-	cout << "Individuo: " << yytext  << " " <<  YYLeng() << std::endl;
-	identificadoresIndividuos++;
+    individuos.push_back(yytext);
     wordCount++; charCount += YYLeng(); 
 }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 74 "test.l"
+#line 77 "analisador.l"
 {
-    
-	cout << "Tipo de Dados: " << yytext  << " "  << YYLeng() << std::endl;
-	identificadorTipoDados++;
+    tiposDeDados.push_back(yytext);
     wordCount++; charCount += YYLeng(); 
 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 81 "test.l"
+#line 82 "analisador.l"
 {
-    
-	std::cout << "Cardinalidade: " << yytext  << " " << YYLeng() <<  std::endl;
-    identificadoresCardinalidade++;
+    cardinalidades.push_back(yytext);
     wordCount++; charCount += YYLeng(); 
 }
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 89 "test.l"
+#line 88 "analisador.l"
 { lineCount++; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 91 "test.l"
+#line 90 "analisador.l"
 ECHO;
 	YY_BREAK
-#line 768 "lex.yy.cc"
+#line 767 "lex.yy.cc"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1727,13 +1726,13 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 91 "test.l"
+#line 90 "analisador.l"
 
 
 int main(int argc, char** argv) {
     yyFlexLexer lexer;
     ifstream fin;
-
+    
     if (argc > 1) {
         fin.open(argv[1]);
         if (!fin.is_open()) {
@@ -1745,35 +1744,43 @@ int main(int argc, char** argv) {
     }
 
     lexer.yylex();
-    cout << "Gerando tabela de informações...\n\n"
-         << left <<   "Quantidade de linhas:" << lineCount+1 << "\n"
-         << left <<   "Quantidade de palavras:" << wordCount << "\n"
-         << left <<   "Quantidade de letras:" << charCount << "\n"
-         << left <<   "Quantidade de palavras reservadas:" << palavrasReservadas << "\n"
-         << left <<   "Quantidade de Símbolos especiais:" << identificadoresEspeciais << "\n"
-         << left <<   "Quantidade de Classes:" << identificadoresClasses << "\n"
-         << left <<   "Quantidade de Indivíduos:" << identificadoresIndividuos << "\n"
-         << left <<   "Quantidade de Propriedades:" << identificadorPropriedades << "\n"
-         << left <<   "Quantidade de tipos de dados:" << identificadorTipoDados << "\n"
-         << left <<   "Quantidade de cardinalidades:" << identificadoresCardinalidade << "\n";
 
+    
+    
     fin.close();
 
     // Salvar as informações no arquivo output.txt
-    ofstream fout("output.txt", ios::out | ios::trunc);
+    ofstream fout("saida.csv", ios::out | ios::trunc);
+
+    
     if (fout.is_open()) {
-        fout << left <<  "Quantidade de linhas:" << lineCount+1 << "\n"
-             << left <<  "Quantidade de palavras:" << wordCount << "\n"
-             << left <<  "Quantidade de letras:" << charCount << "\n"
-             << left <<  "Quantidade de palavras reservadas:" << palavrasReservadas << "\n"
-             << left <<  "Quantidade de Símbolos especiais:" << identificadoresEspeciais << "\n"
-             << left <<  "Quantidade de Classes:" << identificadoresClasses << "\n"
-             << left <<  "Quantidade de Indivíduos:" << identificadoresIndividuos << "\n"
-             << left <<  "Quantidade de Propriedades:" << identificadorPropriedades << "\n"
-             << left <<  "Quantidade de tipos de dados:" << identificadorTipoDados << "\n"
-             << left <<  "Quantidade de cardinalidades:" << identificadoresCardinalidade << "\n";
+        fout << "Palavras reservadas;";
+        escreverCsv(palavrasReservadas,fout);
+        fout << "Classes;";
+        escreverCsv(classes,fout);
+        fout << "Indivíduos;";
+        escreverCsv(individuos,fout);
+        fout << "Propriedades;";
+        escreverCsv(propriedades,fout);
+        fout << "Tipos de dados;";
+        escreverCsv(tiposDeDados,fout);
+        fout << "Cardinalidades;";
+        escreverCsv(cardinalidades,fout);
+        fout << "Símbolos especiais;";
+        escreverCsv(simbolosEspeciais,fout);
+        fout << left <<   "Quantidade de linhas;" << lineCount+1 << "\n"
+         << left <<   "Quantidade de palavras;" << wordCount << "\n"
+         << left <<   "Quantidade de letras;" << charCount << "\n"
+         << left <<   "Quantidade de palavras reservadas;" << palavrasReservadas.size() << "\n"
+         << left <<   "Quantidade de Símbolos especiais;" << simbolosEspeciais.size() << "\n"
+         << left <<   "Quantidade de Classes;" << classes.size() << "\n"
+         << left <<   "Quantidade de Indivíduos;" << individuos.size() << "\n"
+         << left <<   "Quantidade de Propriedades;" << propriedades.size() << "\n"
+         << left <<   "Quantidade de tipos de dados;" << tiposDeDados.size() << "\n"
+         << left <<   "Quantidade de cardinalidades;" << cardinalidades.size() << "\n";
+
         fout.close();
-        cout << "As informações foram salvas em output.txt.\n";
+        cout << "As informações foram salvas em saida.csv.\n";
     } else {
         cout << "Não foi possível criar ou abrir o arquivo output.txt.\n";
     }

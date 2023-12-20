@@ -1,0 +1,17 @@
+Palavras reservadas;Class: ;EquivalentTo: ;and ;some ;and ;some ;Individuals: ;Class: ;SubClassOf: ;and ;min ;Individuals: ;Class: ;SubClassOf: ;some ;some ;DisjointClasses: ;Individuals: ;Class: ;EquivalentTo: ;and ;some ;Individuals: ;Class: ;EquivalentTo: ;and ;some ;Class: ;EquivalentTo: ;and ;min ;Class: ;EquivalentTo: ;and ;some ;Class: ;SubClassOf: ;Class: ;SubClassOf: ;some ;some ;some ;some ;DisjointClasses: ;Individuals: ;Class: ;SubClassOf: ;some ;some ;some ;DisjointClasses: ;Individuals: ;Class: ;SubClassOf: ;some ;some ;or ;DisjointClasses: ;Individuals: ;Class: ;SubClassOf: ;some ;some ;some ;some ;or ;or ;or ;DisjointClasses: ;Individuals: ;Class: ;EquivalentTo: ;and ;some ;value ;Class: ;EquivalentTo: ;and ;or ;Class: ;DisjointClasses: ;Class: ;DisjointClasses: ;Class: ;EquivalentTo: ;
+Classes;Customer ;Person ;Pizza ;Employee ;Person ;Chef ;Manager ;Pizza ;PizzaBase ;Pizza ;PizzaBase ;PizzaTopping ;CheesyPizza ;Pizza ;CheeseTopping ;HighCaloriePizza ;Pizza ;InterestingPizza ;Pizza ;PizzaTopping ;LowCaloriePizza ;Pizza ;NamedPizza ;Pizza ;AmericanaHotPizza ;NamedPizza ;JalapenoPepperTopping ;MozzarellaTopping ;PepperoniTopping ;TomatoTopping ;AmericanaHotPizza ;AmericanaPizza ;MargheritaPizza ;SohoPizza ;AmericanaPizza ;NamedPizza ;MozzarellaTopping ;PepperoniTopping ;TomatoTopping ;AmericanaHotPizza ;AmericanaPizza ;MargheritaPizza ;SohoPizza ;MargheritaPizza ;NamedPizza ;MozzarellaTopping ;TomatoTopping ;MozzarellaTopping ;TomatoTopping ;AmericanaHotPizza ;AmericanaPizza ;MargheritaPizza ;SohoPizza ;SohoPizza ;NamedPizza ;MozzarellaTopping ;OliveTopping ;ParmesanTopping ;TomatoTopping ;MozzarellaTopping ;OliveTopping ;ParmesanTopping ;TomatoTopping ;AmericanaHotPizza ;AmericanaPizza ;MargheritaPizza ;SohoPizza ;SpicyPizza ;Pizza ;Hot ;VegetarianPizza ;Pizza ;CheeseTopping ;VegetableTopping ;PizzaBase ;Pizza ;PizzaBase ;PizzaTopping ;PizzaTopping ;Pizza ;PizzaBase ;PizzaTopping ;Spiciness ;Hot ;Medium ;Mild ;
+Indivíduos;Customer1 ;Customer10 ;Customer2 ;Customer3 ;Customer4 ;Customer5 ;Customer6 ;Customer7 ;Customer8 ;Customer9 ;Waiter1 ;Waiter2 ;CustomPizza1 ;CustomPizza2 ;CheesyPizza1 ;AmericanaHotPizza1 ;AmericanaHotPizza2 ;AmericanaHotPizza3 ;ChicagoAmericanaHotPizza1 ;AmericanaPizza1 ;AmericanaPizza2 ;MargheritaPizza1 ;MargheritaPizza2 ;SohoPizza1 ;SohoPizza2 ;
+Propriedades;purchasedPizza ;hasPhone ;ssn ;hasBase ;hasCaloricContent ;hasTopping ;hasCaloricContent ;hasTopping ;hasCaloricContent ;hasTopping ;hasTopping ;hasTopping ;hasTopping ;hasTopping ;hasTopping ;hasTopping ;hasTopping ;hasTopping ;hasTopping ;only ;hasTopping ;hasTopping ;hasTopping ;hasTopping ;hasTopping ;only ;hasTopping ;hasSpiciness ;hasTopping ;only ;
+Tipos de dados;xsd:string ;xsd:string ;xsd:integer ;xsd:integer ;xsd:integer ;
+Cardinalidades;1 ;400 ;3 ;400 ;
+Símbolos especiais;( ;) ;( ;) ;, ;, ;, ;, ;, ;, ;, ;, ;, ;( ;) ;, ;, ;, ;, ;, ;, ;, ;( ;) ;( ;[ ;> ;= ;] ;) ;( ;) ;( ;[ ;< ;] ;) ;, ;, ;, ;, ;, ;, ;, ;, ;, ;, ;, ;, ;, ;, ;, ;, ;, ;, ;, ;, ;( ;) ;, ;, ;, ;, ;, ;, ;, ;, ;, ;( ;) ;, ;, ;, ;, ;( ;( ;) ;) ;( ;( ;) ;) ;, ;, ;, ;, ;{ ;, ;, ;} ;
+Quantidade de linhas;170
+Quantidade de palavras;235
+Quantidade de letras;2339
+Quantidade de palavras reservadas;85
+Quantidade de Símbolos especiais;90
+Quantidade de Classes;86
+Quantidade de Indivíduos;25
+Quantidade de Propriedades;30
+Quantidade de tipos de dados;5
+Quantidade de cardinalidades;4
