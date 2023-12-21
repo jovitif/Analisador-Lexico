@@ -3,19 +3,20 @@
 
 ## Como executar o analisador
 Entrar na pasta do projeto:
-    ```bash
+
+    
     cd projeto/
-    ```
+   
 Compilar o analisador usando o makeFile:
 
-    ```bash
+    
     make
-    ```
+   
 Executar o analisador gerado com o arquivo de entrada que contém o exemplo:
 
-    ```bash
+    
     ./analisador-lexico entrada.txt
-    ```
+  
 Depois de executar, o arquivo saida.csv será gerado com as informações sobre a entrada 
 
 ## Descrição
