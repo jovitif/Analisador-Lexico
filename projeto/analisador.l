@@ -34,7 +34,7 @@ digito	[0-9]+
 underline [_]
 word [^ \t\n]+
 eol  \n
-reservada (some|all|value|min|max|exactly|that|not|and|or|Class:|EquivalentTo:|Individuals:|SubClassOf:|DisjointClasses:)
+reservada (some|all|value|min|max|exactly|that|not|and|only|or|Class:|EquivalentTo:|Individuals:|SubClassOf:|DisjointClasses:)
 especial ("{"|"}"|"("|")"|"["|"]"|","|"<"|">"|"=")
 propriedade  [a-z][A-Za-z0-9]*
 tipoDado (owl|rdfs|xsd):[A-Za-z0-9_]+
