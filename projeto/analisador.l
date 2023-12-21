@@ -1,12 +1,9 @@
 %{
 #include <iostream>
 #include <fstream>
-#include <iomanip>
-#include <filesystem>
-#include <string>
 #include <vector>
 using namespace std;
-namespace fs = std::filesystem;
+
 
 unsigned charCount = 0, wordCount = 0, lineCount = 0;
 
@@ -26,13 +23,6 @@ void escreverCsv(vector<string> vector,ofstream& fout){
 %option noyywrap
 classe [A-Z][a-zA-Z_]*
 individuo [A-Z][a-zA-Z0-9_]*[0-9]+
-letterMa [A-Z]+
-letterMi [a-z]+
-letter [A-Za-z]+
-noLetter [^A-Za-z]
-digito	[0-9]+
-underline [_]
-word [^ \t\n]+
 eol  \n
 reservada (some|all|value|min|max|exactly|that|not|and|only|or|Class:|EquivalentTo:|Individuals:|SubClassOf:|DisjointClasses:)
 especial ("{"|"}"|"("|")"|"["|"]"|","|"<"|">"|"=")
@@ -109,7 +99,6 @@ int main(int argc, char** argv) {
     
     fin.close();
 
-    // Salvar as informações no arquivo output.txt
     ofstream fout("saida.csv", ios::out | ios::trunc);
 
     
@@ -142,7 +131,7 @@ int main(int argc, char** argv) {
         fout.close();
         cout << "As informações foram salvas em saida.csv.\n";
     } else {
-        cout << "Não foi possível criar ou abrir o arquivo output.txt.\n";
+        cout << "Não foi possível gerar ou abrir o arquivo saida.csv.\n";
     }
 
     return 0;

@@ -486,12 +486,9 @@ static const flex_int16_t yy_chk[252] =
 #line 2 "analisador.l"
 #include <iostream>
 #include <fstream>
-#include <iomanip>
-#include <filesystem>
-#include <string>
 #include <vector>
 using namespace std;
-namespace fs = std::filesystem;
+
 
 unsigned charCount = 0, wordCount = 0, lineCount = 0;
 
@@ -506,8 +503,8 @@ void escreverCsv(vector<string> vector,ofstream& fout){
 
     fout << endl;
 }
-#line 510 "lex.yy.cc"
-#line 511 "lex.yy.cc"
+#line 507 "lex.yy.cc"
+#line 508 "lex.yy.cc"
 
 #define INITIAL 0
 
@@ -639,9 +636,9 @@ YY_DECL
 		}
 
 	{
-#line 46 "analisador.l"
+#line 36 "analisador.l"
 
-#line 645 "lex.yy.cc"
+#line 642 "lex.yy.cc"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -700,7 +697,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 47 "analisador.l"
+#line 37 "analisador.l"
 {
 	palavrasReservadas.push_back(yytext);
     wordCount++; charCount += YYLeng();
@@ -708,7 +705,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 53 "analisador.l"
+#line 43 "analisador.l"
 {
     classes.push_back(yytext);
     wordCount++; charCount += YYLeng(); 
@@ -716,7 +713,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 60 "analisador.l"
+#line 50 "analisador.l"
 {
     simbolosEspeciais.push_back(yytext);
     charCount++;
@@ -724,7 +721,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 65 "analisador.l"
+#line 55 "analisador.l"
 {
     propriedades.push_back(yytext);
     wordCount++; charCount += YYLeng(); 
@@ -732,7 +729,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 72 "analisador.l"
+#line 62 "analisador.l"
 {
     individuos.push_back(yytext);
     wordCount++; charCount += YYLeng(); 
@@ -740,7 +737,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 77 "analisador.l"
+#line 67 "analisador.l"
 {
     tiposDeDados.push_back(yytext);
     wordCount++; charCount += YYLeng(); 
@@ -748,7 +745,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 82 "analisador.l"
+#line 72 "analisador.l"
 {
     cardinalidades.push_back(yytext);
     wordCount++; charCount += YYLeng(); 
@@ -757,15 +754,15 @@ YY_RULE_SETUP
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 88 "analisador.l"
+#line 78 "analisador.l"
 { lineCount++; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 90 "analisador.l"
+#line 80 "analisador.l"
 ECHO;
 	YY_BREAK
-#line 769 "lex.yy.cc"
+#line 766 "lex.yy.cc"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1728,7 +1725,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 90 "analisador.l"
+#line 80 "analisador.l"
 
 
 int main(int argc, char** argv) {
@@ -1751,7 +1748,6 @@ int main(int argc, char** argv) {
     
     fin.close();
 
-    // Salvar as informações no arquivo output.txt
     ofstream fout("saida.csv", ios::out | ios::trunc);
 
     
@@ -1784,7 +1780,7 @@ int main(int argc, char** argv) {
         fout.close();
         cout << "As informações foram salvas em saida.csv.\n";
     } else {
-        cout << "Não foi possível criar ou abrir o arquivo output.txt.\n";
+        cout << "Não foi possível gerar ou abrir o arquivo saida.csv.\n";
     }
 
     return 0;
